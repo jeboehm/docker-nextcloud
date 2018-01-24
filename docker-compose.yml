@@ -1,0 +1,29 @@
+version: '2'
+services:
+  app:
+    image: jeboehm/nextcloud:latest
+    build: .
+    volumes:
+      - nextcloud:/var/www/html
+    restart: unless-stopped
+    environment:
+      - VIRTUAL_HOST=cloud.example.com
+      - LETSENCRYPT_HOST=cloud.example.com
+      - LETSENCRYPT_EMAIL=jeff@example.com
+      - NETWORK_ACCESS=internal
+    mem_limit: 256M
+
+  cron:
+    image: jeboehm/nextcloud:latest
+    build: .
+    volumes:
+      - nextcloud:/var/www/html
+    mem_limit: 256M
+    command: ["php", "/var/www/html/cron.php"]
+    entrypoint: []
+    user: www-data
+    environment:
+      - CRON_STARTTIME=0 * * * *
+
+volumes:
+  nextcloud:
