@@ -6,11 +6,11 @@ services:
     volumes:
       - nextcloud:/var/www/html
     restart: unless-stopped
+    # nginx-proxy uses these variables to autoconfigure the nextcloud vhost.
     environment:
-      - VIRTUAL_HOST=cloud.example.com
-      - LETSENCRYPT_HOST=cloud.example.com
+      - VIRTUAL_HOST=nextcloud.local
+      - LETSENCRYPT_HOST=nextcloud.local
       - LETSENCRYPT_EMAIL=jeff@example.com
-      - NETWORK_ACCESS=internal
     mem_limit: 256M
 
   cron:
@@ -24,6 +24,14 @@ services:
     user: www-data
     environment:
       - CRON_STARTTIME=0 * * * *
+
+  # This is only an example.
+  proxy:
+    image: jwilder/nginx-proxy:latest
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
 
 volumes:
   nextcloud:
