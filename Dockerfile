@@ -15,6 +15,7 @@ RUN apk add --no-cache \
 
 COPY --from=nextcloud /usr/local/etc/php/conf.d/opcache-recommended.ini /usr/local/etc/php/conf.d/opcache.ini
 COPY --from=nextcloud /entrypoint.sh /entrypoint.sh
+COPY --from=nextcloud /upgrade.exclude /upgrade.exclude
 COPY --from=nextcloud /usr/src/nextcloud  /usr/src/nextcloud
 COPY nginx.conf /etc/nginx/sites-enabled/10-docker.conf
 
