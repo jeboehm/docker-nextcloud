@@ -18,5 +18,7 @@ COPY --from=nextcloud /entrypoint.sh /entrypoint.sh
 COPY --from=nextcloud /usr/src/nextcloud  /usr/src/nextcloud
 COPY nginx.conf /etc/nginx/sites-enabled/10-docker.conf
 
+ENV NEXTCLOUD_UPDATE 1
+
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
