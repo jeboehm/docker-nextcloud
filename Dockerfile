@@ -11,17 +11,20 @@ RUN apk add --no-cache \
       coreutils \
       findutils \
       rsync && \
-    docker-php-ext-install pcntl
+    docker-php-ext-install \
+      exif \
+      pcntl
 
-COPY --from=nextcloud /usr/local/etc/php/conf.d/opcache-recommended.ini /usr/local/etc/php/conf.d/zzz_nc_opcache.ini
+COPY --from=nextcloud /usr/local/etc/php/conf.d/opcache-recommended.ini /usr/local/etc/php/conf.d/opcache-recommended.ini
+COPY --from=nextcloud /usr/local/etc/php/conf.d/docker-php-ext-apcu.ini /usr/local/etc/php/conf.d/docker-php-ext-apcu.ini
+COPY --from=nextcloud /usr/local/etc/php/conf.d/memory-limit.ini /usr/local/etc/php/conf.d/memory-limit.ini
 COPY --from=nextcloud /entrypoint.sh /entrypoint.sh
 COPY --from=nextcloud /upgrade.exclude /upgrade.exclude
 COPY --from=nextcloud /usr/src/nextcloud  /usr/src/nextcloud
 COPY nginx.conf /etc/nginx/sites-enabled/10-docker.conf
 
-RUN echo "memory_limit = 512M;" >> /usr/local/etc/php/conf.d/zzz_nextcloud.ini && \
-    echo "php_value upload_max_filesize 16G" >> /usr/local/etc/php/conf.d/zzz_nextcloud.ini && \
-    echo "php_value post_max_size 16G" >> /usr/local/etc/php/conf.d/zzz_nextcloud.ini
+RUN echo "upload_max_filesize=16G" >> /usr/local/etc/php/conf.d/zzz_nextcloud.ini && \
+    echo "post_max_size=16G" >> /usr/local/etc/php/conf.d/zzz_nextcloud.ini
 
 ENV NEXTCLOUD_UPDATE 1
 
