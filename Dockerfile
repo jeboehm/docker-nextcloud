@@ -1,4 +1,4 @@
-ARG PHP_VER=7.4
+ARG PHP_VER=7.2
 ARG NEXTCLOUD_VER=17.0
 
 FROM nextcloud:${NEXTCLOUD_VER}-fpm AS nextcloud
