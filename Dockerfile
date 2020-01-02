@@ -21,10 +21,7 @@ COPY --from=nextcloud /usr/local/etc/php/conf.d/memory-limit.ini /usr/local/etc/
 COPY --from=nextcloud /entrypoint.sh /entrypoint.sh
 COPY --from=nextcloud /upgrade.exclude /upgrade.exclude
 COPY --from=nextcloud /usr/src/nextcloud  /usr/src/nextcloud
-COPY nginx.conf /etc/nginx/sites-enabled/10-docker.conf
-
-RUN echo "upload_max_filesize=16G" >> /usr/local/etc/php/conf.d/zzz_nextcloud.ini && \
-    echo "post_max_size=16G" >> /usr/local/etc/php/conf.d/zzz_nextcloud.ini
+COPY rootfs/ /
 
 ENV NEXTCLOUD_UPDATE 1
 

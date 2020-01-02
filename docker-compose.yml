@@ -13,18 +13,6 @@ services:
       - LETSENCRYPT_EMAIL=jeff@example.com
     mem_limit: 256M
 
-  cron:
-    image: jeboehm/nextcloud:latest
-    build: .
-    volumes:
-      - nextcloud:/var/www/html
-    mem_limit: 256M
-    command: ["php", "/var/www/html/cron.php"]
-    entrypoint: []
-    user: www-data
-    environment:
-      - CRON_STARTTIME=0 * * * *
-
   # This is only an example.
   proxy:
     image: jwilder/nginx-proxy:latest
