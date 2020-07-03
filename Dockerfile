@@ -10,9 +10,11 @@ RUN apk add --no-cache \
       bash \
       coreutils \
       findutils \
+      gmp-dev \
       rsync && \
     docker-php-ext-install \
       exif \
+      gmp \
       pcntl
 
 COPY --from=nextcloud /usr/local/etc/php/conf.d/opcache-recommended.ini /usr/local/etc/php/conf.d/opcache-recommended.ini
